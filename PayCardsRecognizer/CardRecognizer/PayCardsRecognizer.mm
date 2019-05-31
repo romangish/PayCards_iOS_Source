@@ -438,6 +438,11 @@ using namespace std;
     
     [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterX];
     [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterY];
+
+//    NSLayoutConstraint *constraint1 = [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.frameImageView attribute:NSLayoutAttributeCenterY multiplier:1.3 constant:0.0];
+//    constraint1.priority = 500;
+//    [self.view addConstraint:constraint1];
+//
     
     [_view addSubview:self.edgesWrapperView];
     
@@ -446,6 +451,12 @@ using namespace std;
     
     [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeCenterX];
     [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeCenterY];
+  
+//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeTop toItem:self.frameImageView];
+//    [_view addConstraintWithItem:self.labelsHolderView attribute:NSLayoutAttributeRight toItem:self.frameImageView];
+//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeBottom toItem:self.frameImageView];
+//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeLeft toItem:self.frameImageView];
+
     
     _widthConstraint = [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeWidth toItem:nil attribute: NSLayoutAttributeNotAnAttribute];
     _heightConstraint = [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeHeight toItem:nil attribute: NSLayoutAttributeNotAnAttribute];
@@ -457,10 +468,10 @@ using namespace std;
     [_view addConstraintWithItem:self.labelsHolderView attribute:NSLayoutAttributeBottom toItem:self.frameImageView];
     [_view addConstraintWithItem:self.labelsHolderView attribute:NSLayoutAttributeLeft toItem:self.frameImageView];
     
-    [_view addSubview:self.copyrightButton];
-    
-    [_view addConstraintWithItem:self.copyrightButton attribute:NSLayoutAttributeLeft toItem:_view attribute:NSLayoutAttributeLeft constant:8];
-    [_view addConstraintWithItem:self.copyrightButton attribute:NSLayoutAttributeBottom toItem:_view attribute:NSLayoutAttributeBottom constant:-4];
+//    [_view addSubview:self.copyrightButton];
+//
+//    [_view addConstraintWithItem:self.copyrightButton attribute:NSLayoutAttributeLeft toItem:_view attribute:NSLayoutAttributeLeft constant:8];
+//    [_view addConstraintWithItem:self.copyrightButton attribute:NSLayoutAttributeBottom toItem:_view attribute:NSLayoutAttributeBottom constant:-4];
     
     return _view;
 }

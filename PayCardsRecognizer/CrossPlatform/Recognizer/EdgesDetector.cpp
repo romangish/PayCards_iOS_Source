@@ -56,13 +56,13 @@ const Rect CEdgesDetector::CalcWorkingArea(Size frameSize, int captureAreaWidth,
     if (orienation == PayCardsRecognizerOrientationPortrait || orienation == PayCardsRecognizerOrientationPortraitUpsideDown) {
         
         x = (frameSize.height - height)/2;
-        y = (frameSize.width - width)/2;
+        y = ((frameSize.width - width)/2); // - frameSize.width * 0.1;
         
         windowRect = cv::Rect(x,y,width,height);
     }
     else {
         x = (frameSize.height - width)/2;
-        y = (frameSize.width - height)/2;
+        y = ((frameSize.width - height)/2); // - frameSize.width * 0.1;
         
         windowRect = cv::Rect(x,y,height,width);
     }
