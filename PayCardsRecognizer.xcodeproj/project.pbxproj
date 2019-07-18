@@ -1250,7 +1250,7 @@
 				TargetAttributes = {
 					799F99DC1F1E2CC20010B6B1 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 25LJ36UX23;
+						DevelopmentTeam = GVTC975G2Q;
 						ProvisioningStyle = Automatic;
 					};
 					799F99F31F1E2CDA0010B6B1 = {
@@ -1633,7 +1633,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				DEVELOPMENT_TEAM = 25LJ36UX23;
+				DEVELOPMENT_TEAM = GVTC975G2Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1654,7 +1654,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				DEVELOPMENT_TEAM = 25LJ36UX23;
+				DEVELOPMENT_TEAM = GVTC975G2Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

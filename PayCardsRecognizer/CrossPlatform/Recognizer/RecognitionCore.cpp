@@ -368,10 +368,10 @@ void CRecognitionCore::Recognize()
         }
 
         // name
-        if (_mode&PayCardsRecognizerModeName &&
-            !(recognitionResult->GetRecognitionStatus() & RecognitionStatusName)) {
-            RecognizeName();
-        }
+//        if (_mode&PayCardsRecognizerModeName &&
+//            !(recognitionResult->GetRecognitionStatus() & RecognitionStatusName)) {
+//            RecognizeName();
+//        }
         
         _delegate->RecognitionDidFinish(recognitionResult, PayCardsRecognizerModeName);
 
