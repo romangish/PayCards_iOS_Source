@@ -109,10 +109,10 @@ void CRecognitionCore::SetOrientation(PayCardsRecognizerOrientation orientation)
     _orientation = orientation;
 }
 
-cv::Rect CRecognitionCore::CalcWorkingArea(cv::Size frameSize, int captureAreaWidth)
+cv::Rect CRecognitionCore::CalcWorkingArea(cv::Size frameSize, int captureAreaWidth, double realRatio)
 {
     if(auto edgesDetector = _edgesDetector.lock()) {
-        return edgesDetector->CalcWorkingArea(frameSize, captureAreaWidth, _orientation);
+        return edgesDetector->CalcWorkingArea(frameSize, captureAreaWidth, _orientation, realRatio);
     }
     
     return Rect(0,0,0,0);

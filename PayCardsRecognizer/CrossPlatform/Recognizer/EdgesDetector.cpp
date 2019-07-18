@@ -38,7 +38,7 @@ Rect CEdgesDetector::GetInternalWindowRect() const
 }
 
 const Rect CEdgesDetector::CalcWorkingArea(Size frameSize, int captureAreaWidth,
-                                           PayCardsRecognizerOrientation orienation)
+                                           PayCardsRecognizerOrientation orienation, double realRatio)
 {
     _orientation = orienation;
     
@@ -46,7 +46,17 @@ const Rect CEdgesDetector::CalcWorkingArea(Size frameSize, int captureAreaWidth,
     
     _lineThickness = captureAreaWidth;
     
-    int height = frameSize.height - 2*kIndent;
+    int height = 0;
+    
+    if (realRatio > (frameSize.width / frameSize.height)) {
+        height = frameSize.width / realRatio;
+    } else {
+        height = frameSize.height;
+    }
+    
+  //  height = frameSize.height - 2*kIndent;
+    
+    height = height - 2*kIndent;
     int width = (int)height/kCardRatio;
     
     
@@ -54,21 +64,25 @@ const Rect CEdgesDetector::CalcWorkingArea(Size frameSize, int captureAreaWidth,
     int x, y;
     
     if (orienation == PayCardsRecognizerOrientationPortrait || orienation == PayCardsRecognizerOrientationPortraitUpsideDown) {
-        
+        printf("RESULT Portrait\n");
         x = (frameSize.height - height)/2;
-        y = ((frameSize.width - width)/2); // - frameSize.width * 0.1;
+        y = ((frameSize.width - width)/2) - frameSize.width * 0.15;
         
         windowRect = cv::Rect(x,y,width,height);
     }
     else {
+        printf("RESULT not Portrait\n");
         x = (frameSize.height - width)/2;
-        y = ((frameSize.width - height)/2); // - frameSize.width * 0.1;
+        y = ((frameSize.width - height)/2) - frameSize.width * 0.15;
         
         windowRect = cv::Rect(x,y,height,width);
     }
     
     _internalWindowRect = cv::Rect(windowRect.x-_lineThickness/2, windowRect.y-_lineThickness/2,
-                                   windowRect.height + _lineThickness, windowRect.width + _lineThickness);    
+                                   windowRect.height + _lineThickness, windowRect.width + _lineThickness);
+    
+    printf("RESULT windowRect: w:%d x h:%d, x=%d, y=%d\n", windowRect.width, windowRect.height, windowRect.x, windowRect.y );
+    
     return windowRect;
 }
 

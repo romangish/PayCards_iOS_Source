@@ -49,5 +49,8 @@ class CardDetailsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: ""), style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-
+    @IBAction func close(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

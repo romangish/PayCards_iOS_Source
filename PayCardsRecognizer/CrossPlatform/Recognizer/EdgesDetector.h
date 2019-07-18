@@ -24,7 +24,7 @@ public:
 
     virtual Rect GetInternalWindowRect() const;
     
-    virtual const Rect CalcWorkingArea(Size frameSize, int captureAreaWidth, PayCardsRecognizerOrientation orienation);
+    virtual const Rect CalcWorkingArea(Size frameSize, int captureAreaWidth, PayCardsRecognizerOrientation orienation, double realRatio);
     virtual const DetectedLineFlags DetectEdges(Mat& rawFrame, vector<ParametricLine>& edges, Mat& resultFrame);
     
 private:

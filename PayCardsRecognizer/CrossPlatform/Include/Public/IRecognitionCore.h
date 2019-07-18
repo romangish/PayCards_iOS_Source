@@ -82,7 +82,7 @@ public:
     
     virtual void SetTorchStatus(bool status) = 0;
     
-    virtual cv::Rect CalcWorkingArea(cv::Size frameSize, int captureAreaWidth) = 0;
+    virtual cv::Rect CalcWorkingArea(cv::Size frameSize, int captureAreaWidth, double realRatio) = 0;
     
     virtual void ProcessFrame(DetectedLineFlags& edgeFlags, void* bufferY, void* bufferUV, size_t bufferSizeY, size_t bufferSizeUV) = 0;
 };

@@ -217,7 +217,7 @@ using namespace std;
 
 - (void)deployCameraWithMode:(PayCardsRecognizerMode)mode {
     [self deployWithMode:mode];
-    
+
     self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
     self.videoCamera.delegate = self;
     
@@ -323,9 +323,10 @@ using namespace std;
     dispatch_async(dispatch_get_main_queue(), ^{
         float coef;
         
-        coef = 720.0 / self.container.bounds.size.width;
+        coef = 1280.0 / self.container.bounds.size.height;
         _widthConstraint.constant = windowRect.height/coef;
         _heightConstraint.constant = windowRect.width/coef;
+        
     });
 }
 
@@ -334,7 +335,11 @@ using namespace std;
     NSInteger _orientationRawValue = _orientation;
     NSInteger orientationRawValue = orientation;
     
-    cv::Rect windowRect = _recognitionCore->CalcWorkingArea(cv::Size(1280, 720), _captureAreaWidth);
+    float realRatio  = self.container.bounds.size.height/self.container.bounds.size.width;
+    
+     printf("RESULT cont w = %f, h = %f realRatiom = %f \n", self.container.bounds.size.width, self.container.bounds.size.height, realRatio);
+
+   cv::Rect windowRect = _recognitionCore->CalcWorkingArea(cv::Size(1280, 720), _captureAreaWidth, realRatio);
     
     if (_orientationRawValue == orientationRawValue) {
         return [self positionUIEdges:windowRect];
@@ -437,25 +442,26 @@ using namespace std;
     [_view addSubview:self.frameImageView];
     
     [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterX];
-    [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterY];
+ //   [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterY];
 
-//    NSLayoutConstraint *constraint1 = [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.frameImageView attribute:NSLayoutAttributeCenterY multiplier:1.3 constant:0.0];
-//    constraint1.priority = 500;
-//    [self.view addConstraint:constraint1];
-//
+    int delta = self.container.bounds.size.height * 0.15;
+    
+    NSLayoutConstraint *constraint1 = [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.frameImageView attribute:NSLayoutAttributeCenterY multiplier:1 constant:delta];
+    [self.view addConstraint:constraint1];
+
     
     [_view addSubview:self.edgesWrapperView];
     
     [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeWidth toItem:self.frameImageView];
     [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeHeight toItem:self.frameImageView];
     
-    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeCenterX];
-    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeCenterY];
+//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeCenterX];
+//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeCenterY];
   
-//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeTop toItem:self.frameImageView];
-//    [_view addConstraintWithItem:self.labelsHolderView attribute:NSLayoutAttributeRight toItem:self.frameImageView];
-//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeBottom toItem:self.frameImageView];
-//    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeLeft toItem:self.frameImageView];
+    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeTop toItem:self.frameImageView];
+    [_view addConstraintWithItem:self.labelsHolderView attribute:NSLayoutAttributeRight toItem:self.frameImageView];
+    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeBottom toItem:self.frameImageView];
+    [_view addConstraintWithItem:self.edgesWrapperView attribute:NSLayoutAttributeLeft toItem:self.frameImageView];
 
     
     _widthConstraint = [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeWidth toItem:nil attribute: NSLayoutAttributeNotAnAttribute];
