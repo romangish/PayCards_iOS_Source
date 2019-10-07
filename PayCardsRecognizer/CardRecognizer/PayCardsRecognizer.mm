@@ -137,6 +137,8 @@ using namespace std;
 
 @property (nonatomic, strong) UIColor *frameColor;
 
+@property (nonatomic) int bytesPerRow;
+
 @end
 
 @implementation PayCardsRecognizer
@@ -163,6 +165,13 @@ using namespace std;
         } else {
             _captureAreaWidth = 32;
         }
+        
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 13.0) {
+            _bytesPerRow = 768;
+        } else {
+            _bytesPerRow = 720;
+        }
+        
         [self deployCameraWithMode:recognizerModeInternal];
     }
     
@@ -218,14 +227,14 @@ using namespace std;
 - (void)deployCameraWithMode:(PayCardsRecognizerMode)mode {
     [self deployWithMode:mode];
 
-    self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
+    self.videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:  AVCaptureSessionPreset1280x720 cameraPosition:AVCaptureDevicePositionBack];
     self.videoCamera.delegate = self;
     
     int bufferHeightY = 1280;
-    int bytesPerRowY = 720;
+    int bytesPerRowY = _bytesPerRow;
     
     int bufferHeightUV = 640;
-    int bytesPerRowUV = 720;
+    int bytesPerRowUV = _bytesPerRow;
     
     _bufferSizeY = bufferHeightY * bytesPerRowY;
     _bufferSizeUV = bufferHeightUV * bytesPerRowUV;
@@ -323,7 +332,7 @@ using namespace std;
     dispatch_async(dispatch_get_main_queue(), ^{
         float coef;
         
-        coef = 1280.0 / self.container.bounds.size.height;
+        coef = 1280.0 / self.container.frame.size.height;
         _widthConstraint.constant = windowRect.height/coef;
         _heightConstraint.constant = windowRect.width/coef;
         
@@ -335,9 +344,12 @@ using namespace std;
     NSInteger _orientationRawValue = _orientation;
     NSInteger orientationRawValue = orientation;
     
-    float realRatio  = self.container.bounds.size.height/self.container.bounds.size.width;
+    float realRatio  = self.container.frame.size.height/self.container.frame.size.width;
     
-     printf("RESULT cont w = %f, h = %f realRatiom = %f \n", self.container.bounds.size.width, self.container.bounds.size.height, realRatio);
+    printf("RESULT cont w = %f, h = %f realRatiom = %f \n", self.container.frame.size.width, self.container.frame.size.height, realRatio);
+    
+    
+    
 
    cv::Rect windowRect = _recognitionCore->CalcWorkingArea(cv::Size(1280, 720), _captureAreaWidth, realRatio);
     
@@ -444,7 +456,7 @@ using namespace std;
     [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterX];
  //   [_view addConstraintWithItem:self.frameImageView attribute:NSLayoutAttributeCenterY];
 
-    int delta = self.container.bounds.size.height * 0.15;
+    int delta = self.container.frame.size.height * 0.15;
     
     NSLayoutConstraint *constraint1 = [NSLayoutConstraint constraintWithItem:_view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.frameImageView attribute:NSLayoutAttributeCenterY multiplier:1 constant:delta];
     [self.view addConstraint:constraint1];
@@ -614,9 +626,11 @@ using namespace std;
 }
 
 - (void)tapCopyright {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://pay.cards"] options:@{} completionHandler:^(BOOL success) {
-        
-    }];
+    if (@available(iOS 10, *)) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://pay.cards"] options:@{} completionHandler:^(BOOL success) {}];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://pay.cards"]];
+    }
 }
 
 @end
